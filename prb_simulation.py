@@ -1,11 +1,8 @@
-# -*- coding: utf-8 -*-
 """
-samod.py
-SA (simulated annealing) modula
+#### SIMULATION MODULE ####
 """
 import numpy as np
 from random import randint
-#from sympy import *
 from sympy import *
 '''
 ---------------------------------------------
