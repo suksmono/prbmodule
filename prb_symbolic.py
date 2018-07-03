@@ -22,6 +22,18 @@ def maxHq(Hq, NQ):
         # put energy spectra to vE
         vE[m]= float(tE)
     return(max(vE))
+
+def minHq(Hq, NQ):
+    qq=symbols('q0:%d'%NQ)
+    vE=zeros(2**NQ,1)
+    for m in range(0,2**NQ):
+        vq=np.binary_repr(m, width=NQ)
+        tE=Hq
+        for n in range(0,NQ):
+            tE=tE.subs({qq[n]:float(vq[n]) })
+        # put energy spectra to vE
+        vE[m]= float(tE)
+    return(min(vE))
 '''
 ------------------------------------------------------------
 k-body to 2-body transform

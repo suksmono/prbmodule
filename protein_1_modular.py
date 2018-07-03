@@ -2,18 +2,7 @@
 ------------------------------------------------------------
  symbolic compution of factorization problem
  Created by: Suksmono@{STEI-ITB, MDR Inc.}
- problem adopted from:
- https://qiita.com/YuichiroMinato/items/9c9fba2b5bc978ec9e73
- the idea: 
- (1) a user enter his/her problem
- (2) server do symbolic calculation and simulation: 
-     (a)Pq inc k-body -> Ps with only 2-bdy in s-domain
-     (b) extract coefficients {b, hi, Jij}
-           -> fed to simulator
-           -> deliver to user for D-Wave input
- (3) server send back simulation results and parameter to user
- (4) user run his problem (b, hi, Jij) in D-wave, compare the
-     result from simulator
+ Applied to protein folding problem
 ------------------------------------------------------------
  """
 from sympy import *
@@ -32,13 +21,9 @@ H=(Nc- p*q)^2,where p=(1+2*q0+4*q1),q=(1+2*q2);Nc=15, 21 ...
     1. USER WRITES THE PROBLEM
 ------------------------------------------------------------
 '''
-Nc=21  # a composite number to be factored
-# it is known that the prime factors are odd numbers
-p=1+2*qq[0]+4*qq[1]
-q=1+2*qq[2]
-
 # Hamiltonian of the problem
-Hq=(Nc-p*q)**2
+Hq = -1 -4*qq[2] + 9*qq[0]*qq[2] + 9*qq[1]*qq[2] \
+     - 16*qq[0]*qq[1]*qq[2]
  
 '''
 ------------------------------------------------------------
@@ -71,7 +56,7 @@ b, hi, Jij = isingCoeffs(H2s,NQ)
 SUBITER=100
 MAXITER=1000
 # calculate the solution using simulated annealing prb_sa
-vSpin=prb_sa(b, hi, Jij, NQ, SUBITER, MAXITER, 0.)
+vSpin=prb_sa(b, hi, Jij, NQ, SUBITER, MAXITER, minHq(Hq, NQ))
 
 '''
  ------------------------------------------------------------
@@ -85,10 +70,6 @@ print('            RESULTS')
 print('******************************\n')
 print('q0=', int(qSpin[0]),',q1=', int(qSpin[1]), \
       ',q2=', int(qSpin[2]), ',q3=', int(qSpin[3]), )
-#
-vp=int(p.subs({qq[0]:qSpin[0],qq[1]:qSpin[1]}))
-vq=int(q.subs({qq[2]:qSpin[2]}))
-print('Prime factors of ', Nc, ' are', vp, 'and', vq)
 
 print('\n******************************')
 print('  Parameter for D-Wave input')

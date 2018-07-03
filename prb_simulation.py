@@ -45,7 +45,7 @@ def vEnergyBx(b, hi, Jij,vSpin):
 SIMULATED ANNEALING
 ------------------------------------------------------------
 '''
-def prb_sa(b, hi, Jij, NQ, SUBITER, MAXITER):   
+def prb_sa(b, hi, Jij, NQ, SUBITER, MAXITER, Etresh):   
     ITR1=SUBITER;
     vStart=0;
     # random vector
@@ -58,7 +58,7 @@ def prb_sa(b, hi, Jij, NQ, SUBITER, MAXITER):
     vSpin=vSpin0;
     # init energy setting
     Ecurr = vEnergyBx(b, hi, Jij,vSpin);
-    Etresh=0;
+    #Etresh=-5; #0;
     while (k<maxIter) and (Ecurr>Etresh):
         k=k+1;
         Eprev=Ecurr;
