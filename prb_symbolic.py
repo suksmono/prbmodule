@@ -1,5 +1,5 @@
 """
-MODULE: redbool
+prb_symbolic
 symbolic manipulation module
 """
 
