@@ -23,7 +23,6 @@ from prb_simulation import *
 
 # define used symbols
 NQ=4
-#q0, q1, q2, q3, d = symbols('q0 q1 q2 q3 d')
 qq=symbols('q0:%d'%NQ)
 
 '''
@@ -61,7 +60,6 @@ print('H2s= \n',H2s);
     3. EXTRACT ISING PARAMETERS FROM SYMBOLIC SOLUTION
 ------------------------------------------------------------
 '''
-#NQ=4 # number of qubits q0, ..., q3
 b, hi, Jij = isingCoeffs(H2s,NQ)
 
 '''
