@@ -31,7 +31,6 @@ Hq = -1 -4*q[2] + 9*q[0]*q[2] + 9*q[1]*q[2] \
 ------------------------------------------------------------
 '''
 
-NQ=4   # Number of qubits
 # define substition of k-body -> 2-body interaction
 qSub=[[1,2,3]] # q1*q2->q3
 

@@ -47,7 +47,6 @@ Hq=(Nc-P*Q)**2
 ------------------------------------------------------------
 '''
 
-NQ=4   # Number of qubits
 # define substition of k-body -> 2-body interaction
 qSub=[[1,2,3]] # q1*q2->q3
 
