@@ -23,7 +23,7 @@ from prb_simulation import *
 
 # define used symbols
 NQ=4
-qq=symbols('q0:%d'%NQ)
+q=symbols('q0:%d'%NQ)
 
 '''
 we will calculate the Hamiltonian
@@ -34,11 +34,11 @@ H=(Nc- p*q)^2,where p=(1+2*q0+4*q1),q=(1+2*q2);Nc=15, 21 ...
 '''
 Nc=21  # a composite number to be factored
 # it is known that the prime factors are odd numbers
-p=1+2*qq[0]+4*qq[1]
-q=1+2*qq[2]
+P=1+2*q[0]+4*q[1]
+Q=1+2*q[2]
 
 # Hamiltonian of the problem
-Hq=(Nc-p*q)**2
+Hq=(Nc-P*Q)**2
  
 '''
 ------------------------------------------------------------
@@ -86,8 +86,8 @@ print('******************************\n')
 print('q0=', int(qSpin[0]),',q1=', int(qSpin[1]), \
       ',q2=', int(qSpin[2]), ',q3=', int(qSpin[3]), )
 #
-vp=int(p.subs({qq[0]:qSpin[0],qq[1]:qSpin[1]}))
-vq=int(q.subs({qq[2]:qSpin[2]}))
+vp=int(P.subs({q[0]:qSpin[0],q[1]:qSpin[1]}))
+vq=int(Q.subs({q[2]:qSpin[2]}))
 print('Prime factors of ', Nc, ' are', vp, 'and', vq)
 
 print('\n******************************')

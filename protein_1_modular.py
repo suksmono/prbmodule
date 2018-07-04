@@ -1,8 +1,7 @@
 """
 ------------------------------------------------------------
- symbolic compution of factorization problem
+ symbolic computation of protein folding problem
  Created by: Suksmono@{STEI-ITB, MDR Inc.}
- Applied to protein folding problem
 ------------------------------------------------------------
  """
 from sympy import *
@@ -12,7 +11,7 @@ from prb_simulation import *
 
 # define used symbols
 NQ=4
-qq=symbols('q0:%d'%NQ)
+q=symbols('q0:%d'%NQ)
 
 '''
 we will calculate the Hamiltonian
@@ -22,8 +21,8 @@ H=(Nc- p*q)^2,where p=(1+2*q0+4*q1),q=(1+2*q2);Nc=15, 21 ...
 ------------------------------------------------------------
 '''
 # Hamiltonian of the problem
-Hq = -1 -4*qq[2] + 9*qq[0]*qq[2] + 9*qq[1]*qq[2] \
-     - 16*qq[0]*qq[1]*qq[2]
+Hq = -1 -4*q[2] + 9*q[0]*q[2] + 9*q[1]*q[2] \
+     - 16*q[0]*q[1]*q[2]
  
 '''
 ------------------------------------------------------------
@@ -56,7 +55,8 @@ b, hi, Jij = isingCoeffs(H2s,NQ)
 SUBITER=100
 MAXITER=1000
 # calculate the solution using simulated annealing prb_sa
-vSpin=prb_sa(b, hi, Jij, NQ, SUBITER, MAXITER, minHq(Hq, NQ))
+threshold, vMax=minMaxHq(Hq, NQ)
+vSpin=prb_sa(b, hi, Jij, NQ, SUBITER, MAXITER, threshold)
 
 '''
  ------------------------------------------------------------

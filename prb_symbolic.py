@@ -11,29 +11,17 @@ from sympy import *
 maximum value of Hq, used to estimate delta > max(Hq)
 ------------------------------------------------------------
 '''
-def maxHq(Hq, NQ):
-    qq=symbols('q0:%d'%NQ)
+def minMaxHq(Hq, NQ):
+    q=symbols('q0:%d'%NQ)
     vE=zeros(2**NQ,1)
     for m in range(0,2**NQ):
         vq=np.binary_repr(m, width=NQ)
         tE=Hq
         for n in range(0,NQ):
-            tE=tE.subs({qq[n]:float(vq[n]) })
+            tE=tE.subs({q[n]:float(vq[n]) })
         # put energy spectra to vE
         vE[m]= float(tE)
-    return(max(vE))
-
-def minHq(Hq, NQ):
-    qq=symbols('q0:%d'%NQ)
-    vE=zeros(2**NQ,1)
-    for m in range(0,2**NQ):
-        vq=np.binary_repr(m, width=NQ)
-        tE=Hq
-        for n in range(0,NQ):
-            tE=tE.subs({qq[n]:float(vq[n]) })
-        # put energy spectra to vE
-        vE[m]= float(tE)
-    return(min(vE))
+    return(min(vE), max(vE))
 '''
 ------------------------------------------------------------
 k-body to 2-body transform
@@ -126,13 +114,13 @@ def q2s_symbolic(H,qSub,NQ):
     # display result for checking
     # print('Hq0=\n',Hq0);
     # identify all parameters based on NQ
-    qq=symbols('q0:%d'%NQ)
+    q=symbols('q0:%d'%NQ)
     # substitute qi^2->qi
     Hq=Hq0;
     # substiture qi**2 <- qi recursively
     for m in range(NQ):
         Hq=simplify( \
-            Hq.subs({qq[m]**2:qq[m]}) \
+            Hq.subs({q[m]**2:q[m]}) \
         )
     
     #print('Hq=\n',Hq);
@@ -155,14 +143,15 @@ def q2s_symbolic(H,qSub,NQ):
     ====
     check all combination C(NQ,NQ),C(NQ,NQ-1), .., C(NQ,3) 
     """
-    d=2*maxHq(Hq,NQ)
+    vMin,vMax=minMaxHq(Hq,NQ)
+    d=2*vMax 
        
     # do substitution iteratively 
     H2b=Hq
     for m in range(0,len(qSub)):
         H2b=simplify( \
-                  H2b.subs({qq[qSub[m][0]]*qq[qSub[m][1]]:qq[qSub[m][2]]}) \
-                + H2sub(qq[qSub[m][0]],qq[qSub[m][1]],qq[qSub[m][2]],d) \
+                  H2b.subs({q[qSub[m][0]]*q[qSub[m][1]]:q[qSub[m][2]]}) \
+                + H2sub(q[qSub[m][0]],q[qSub[m][1]],q[qSub[m][2]],d) \
             );
 
     #print('H2b= \n',H2b);
@@ -174,15 +163,15 @@ def q2s_symbolic(H,qSub,NQ):
     '''
     #s0, s1, s2, s3 = symbols('s0 s1 s2 s3')
     # define s-domain variables
-    ss=symbols('s0:%d'%NQ)
+    s=symbols('s0:%d'%NQ)
     '''
     ------------------------------------------------------------
     TRANSFORM H in q-domain TO s-DOMAIN FOR SIMULATION
     ------------------------------------------------------------
     '''
     H2s=simplify( H2b.subs( \
-                   {qq[0]:q2s(ss[0]), qq[1]:q2s(ss[1]), qq[2]:q2s(ss[2]),\
-                    qq[3]:q2s(ss[3]), }
+                   {q[0]:q2s(s[0]), q[1]:q2s(s[1]), q[2]:q2s(s[2]),\
+                    q[3]:q2s(s[3]), }
                   ) \
          );
     #print('H2s= \n',H2s);
